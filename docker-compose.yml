@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  httpbin:
+    image: kennethreitz/httpbin:latest
+    ports:
+      - "8080:80"
+
+  k6:
+    image: grafana/k6:latest
+    volumes:
+      - ./k6-tests:/scripts
+    working_dir: /scripts
+    command: run load_test.js
+    depends_on:
+      - httpbin
